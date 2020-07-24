@@ -1,17 +1,15 @@
 import express from "express";
-import knex from "./database/connection";
 
 import CarsController from "./controllers/CarsController";
+import ExitPayment from "./controllers/ExitPaymentController";
 
 const routes = express.Router();
 const carsController = new CarsController();
+const payment = new ExitPayment();
 
-routes.get("/cars", async (request, response) => {
-  const cars = await knex("cars").select("*");
-
-  return response.json(cars);
-});
-
+routes.get("/cars", carsController.index);
 routes.post("/cars", carsController.create);
+
+routes.post("/payment", payment.create);
 
 export default routes;

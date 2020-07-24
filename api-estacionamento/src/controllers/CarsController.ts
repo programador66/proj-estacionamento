@@ -34,6 +34,12 @@ class CarsController {
       });
     }
   }
+
+  async index(request: Request, response: Response) {
+    const cars = await knex("cars").select("*");
+
+    return response.json(cars);
+  }
 }
 
 export default CarsController;

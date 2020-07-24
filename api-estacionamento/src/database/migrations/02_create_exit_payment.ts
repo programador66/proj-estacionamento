@@ -4,7 +4,7 @@ export async function up(knex: Knex) {
   return await knex.schema.createTable("exit_payment", (table) => {
     table.increments("id").primary();
     table.string("cars_id").notNullable().references("id").inTable("cars");
-    table.time("hora-saida").notNullable();
+    table.time("hora_saida").notNullable();
     table.date("data");
     table.float("total_a_pagar");
   });

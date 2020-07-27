@@ -17,7 +17,7 @@ class ExitPaymentController {
         total_a_pagar,
       };
 
-      await begintransaction("cars").insert(payment);
+      await begintransaction("exit_payment").insert(payment);
 
       begintransaction.commit();
       return response.json({
@@ -33,6 +33,13 @@ class ExitPaymentController {
       });
     }
   }
+
+  async index(request: Request, response: Response) {
+    const payment = await knex("exit_payment").select("*");
+
+    return response.json(payment);
+  }
+  
 }
 
 export default ExitPaymentController;

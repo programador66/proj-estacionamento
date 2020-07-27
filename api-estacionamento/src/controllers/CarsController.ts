@@ -6,6 +6,8 @@ class CarsController {
   async create(request: Request, response: Response) {
     const { placa, cor, modelo } = request.body;
 
+    moment.locale();
+
     const hora_entrada = moment().format("h:mm:ss");
 
     try {

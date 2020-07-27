@@ -6,7 +6,8 @@ export async function seed(knex: Knex) {
       placa: "xybr-3243",
       modelo: "BMW",
       cor: "branca",
-      hora_entrada: "12:00:00",
+      hora_entrada: "12:01:00",
+      data_entrada: "27/07/2020",
     },
   ]);
 }

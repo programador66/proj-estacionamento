@@ -7,6 +7,7 @@ export async function up(knex: Knex) {
     table.string("cor");
     table.string("modelo").notNullable();
     table.time("hora_entrada").notNullable();
+    table.date("data_entrada");
   });
 }
 

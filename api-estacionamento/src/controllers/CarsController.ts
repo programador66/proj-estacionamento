@@ -1,17 +1,16 @@
 import knex from "../database/connection";
 import { Request, Response } from "express";
+import CarsService from "../services/CarsService";
 import moment from "moment";
 
 class CarsController {
   async create(request: Request, response: Response) {
-    const { placa, cor, modelo } = request.body;
-
-    moment.locale();
-
-    const hora_entrada = moment().format("h:mm:ss");
-
     try {
-      const begintransaction = await knex.transaction();
+      const carService = new CarsService();
+
+      const { placa, cor, modelo } = request.body;
+
+      const hora_entrada = moment().locale("pt-br").format("HH:MM:SS");
 
       const cars = {
         placa,
@@ -20,9 +19,12 @@ class CarsController {
         hora_entrada,
       };
 
-      const newCar = await begintransaction("cars").insert(cars);
+      const resDb = await carService.insert(cars);
 
-      begintransaction.commit();
+      if (!resDb.success) {
+        throw new Error("Erro BD");
+      }
+
       return response.json({
         msg: "Carro Estacionado",
         http_code: 201,
@@ -38,9 +40,9 @@ class CarsController {
   }
 
   async index(request: Request, response: Response) {
-    const cars = await knex("cars").select("*");
+    const res = await new CarsService().getCars();
 
-    return response.json(cars);
+    return response.json(res);
   }
 }
 

@@ -5,6 +5,7 @@ interface ICars {
   cor: String;
   modelo: String;
   hora_entrada: String;
+  data_entrada: String;
 }
 
 class CarsService {
@@ -19,7 +20,7 @@ class CarsService {
       return { success: false, error: newCar };
     }
 
-    return { success: true, msg: "Carro Estacionado!" };
+    return { success: true };
   }
 
   async getCars() {

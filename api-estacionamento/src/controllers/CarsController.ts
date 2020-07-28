@@ -1,22 +1,32 @@
-import knex from "../database/connection";
 import { Request, Response } from "express";
 import CarsService from "../services/CarsService";
+import DateHelper from "../helpers/dateHelper";
+
 import moment from "moment";
 
 class CarsController {
   async create(request: Request, response: Response) {
     try {
       const carService = new CarsService();
-
+      const dateHelper = new DateHelper();
       const { placa, cor, modelo } = request.body;
 
       const hora_entrada = moment().locale("pt-br").format("HH:MM:SS");
+      const data_entrada = moment().locale("pt-br").format("L");
+      const validaHoraEntrada = await dateHelper.validaHoraDeEntrada(
+        hora_entrada
+      );
+
+      if (!validaHoraEntrada) {
+        throw new Error("Hora de entrada não permitida!");
+      }
 
       const cars = {
         placa,
         cor,
         modelo,
         hora_entrada,
+        data_entrada,
       };
 
       const resDb = await carService.insert(cars);
@@ -25,15 +35,13 @@ class CarsController {
         throw new Error("Erro BD");
       }
 
-      return response.json({
+      return response.status(201).json({
         msg: "Carro Estacionado",
-        http_code: 201,
         hora: hora_entrada,
       });
     } catch (err) {
-      return response.json({
+      return response.status(406).json({
         msg: "Erro na inserção do veículo",
-        http_code: 406,
         error: err.message,
       });
     }

@@ -12,6 +12,11 @@ class api {
     const response = await this.api.get("/cars");
     return response;
   }
+
+  async setCars(params) {
+    const response = await this.api.post("/cars", params);
+    return response;
+  }
 }
 
 export default new api();

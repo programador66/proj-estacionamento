@@ -11,6 +11,10 @@ class CarsController {
       const dateHelper = new DateHelper();
       const { placa, cor, modelo } = request.body;
 
+      if (placa == "" || cor == "" || modelo == "") {
+        throw new Error("Campos De entrada Nulos!");
+      }
+      console.log(placa);
       const hora_entrada = moment().locale("pt-br").format("HH:MM:SS");
       const data_entrada = moment().locale("pt-br").format("L");
       const validaHoraEntrada = await dateHelper.validaHoraDeEntrada(
@@ -48,7 +52,8 @@ class CarsController {
   }
 
   async index(request: Request, response: Response) {
-    const res = await new CarsService().getCars();
+    const data = moment().locale("pt-br").format("L");
+    const res = await new CarsService().getCars(data);
 
     return response.json(res);
   }

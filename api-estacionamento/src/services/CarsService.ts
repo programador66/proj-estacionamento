@@ -23,8 +23,10 @@ class CarsService {
     return { success: true };
   }
 
-  async getCars() {
-    const cars = await knex("cars").select("*");
+  async getCars(data: String) {
+    const cars = await knex("cars")
+      .select("*")
+      .where("cars.data_entrada", "=", data);
 
     return cars;
   }

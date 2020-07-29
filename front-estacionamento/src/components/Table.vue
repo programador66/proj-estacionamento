@@ -13,14 +13,14 @@
     </v-card-title>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="getCars"
       :search="search"
     ></v-data-table>
   </v-card>
 </template>
 
 <script>
-import api from "../services/api";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Table",
@@ -29,50 +29,20 @@ export default {
     search: "",
     headers: [
       {
-        text: "Carros",
         align: "start",
         sortable: false,
         value: "name",
       },
+      { text: "Modelo", value: "modelo" },
       { text: "Placa", value: "placa" },
       { text: "Cor", value: "cor" },
-      { text: "Modelo", value: "modelo" },
       { text: "Hora Entrada", value: "hora_entrada" },
       { text: "Data Entrada", value: "data_entrada" },
     ],
-    desserts: [
-      {
-        name: "HB20",
-        placa: 159,
-        cor: 6.0,
-        modelo: 24,
-        hora_entrada: 4.0,
-        data_entrada: "1%",
-      },
-      {
-        name: "City",
-        placa: 159,
-        cor: 6.0,
-        modelo: 24,
-        hora_entrada: 4.0,
-        data_entrada: "1%",
-      },
-    ],
+    carros: [],
   }),
-  methods: {
-    getCars() {
-      api
-        .getCars()
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-  created() {
-    this.getCars();
+  computed: {
+    ...mapGetters(["getCars"]),
   },
 };
 </script>

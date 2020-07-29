@@ -22,7 +22,20 @@ class ExitPaymentController {
       const { hora_entrada } = carsResponseService[0];
 
       const hora_saida = moment().locale("pt-br").format("HH:MM:SS");
+      const data_saida = moment().locale("pt-br").format("L");
       const dia = moment().locale("pt-br").format("dddd");
+
+      const validateExit = await paymentService.validateExitCarsByPlacaAndDate(
+        data_saida,
+        cars_id
+      );
+
+      if (Object.keys(validateExit).length !== 0) {
+        return response.status(406).json({
+          msg: "Veículo ja foi retirado! data: " + dia,
+          error: "ja existe no bd",
+        });
+      }
 
       const valor_a_pagar = await dateHelper.validaDiaERetornaValor(
         dia,
@@ -43,6 +56,8 @@ class ExitPaymentController {
         throw new Error("Erro BD");
       }
 
+      const alterStatus = await carsService.updateCarById(cars_id);
+
       return response.status(201).json({
         msg: "Carro Retirado!",
         hora: hora_saida,
@@ -50,7 +65,7 @@ class ExitPaymentController {
       });
     } catch (err) {
       return response.status(406).json({
-        msg: "Erro na inserção do veículo",
+        msg: "Erro na Retirada do veículo",
         error: err.message,
       });
     }

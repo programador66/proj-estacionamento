@@ -26,7 +26,8 @@ class CarsService {
   async getCars(data: String) {
     const cars = await knex("cars")
       .select("*")
-      .where("cars.data_entrada", "=", data);
+      .where("cars.data_entrada", "=", data)
+      .andWhere("cars.status", "=", "S");
 
     return cars;
   }
@@ -36,6 +37,24 @@ class CarsService {
       .select("*")
       .where("cars.id", "=", id)
       .andWhere("cars.placa", "=", placa);
+
+    return cars;
+  }
+
+  async validateCarsByPlacaAndDate(placa: String, data_entrada: String) {
+    const cars = await knex("cars")
+      .select("*")
+      .where("cars.data_entrada", "=", data_entrada)
+      .andWhere("cars.placa", "=", placa);
+
+    return cars;
+  }
+
+  async updateCarById(id: Number) {
+    const cars = knex("cars").where("id", "=", id).update({
+      status: "N",
+      thisKeyIsSkipped: undefined,
+    });
 
     return cars;
   }

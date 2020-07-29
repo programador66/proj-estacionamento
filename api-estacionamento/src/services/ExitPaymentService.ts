@@ -27,6 +27,15 @@ class ExitPaymentService {
 
     return res;
   }
+
+  async validateExitCarsByPlacaAndDate(data_saida: String, id: Number) {
+    const exit = await knex("exit_payment")
+      .select("*")
+      .where("exit_payment.data_saida", "=", data_saida)
+      .andWhere("exit_payment.id", "=", id);
+
+    return exit;
+  }
 }
 
 export default ExitPaymentService;

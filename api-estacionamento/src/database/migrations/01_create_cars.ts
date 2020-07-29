@@ -8,6 +8,7 @@ export async function up(knex: Knex) {
     table.string("modelo").notNullable();
     table.time("hora_entrada").notNullable();
     table.date("data_entrada");
+    table.string("status");
   });
 }
 

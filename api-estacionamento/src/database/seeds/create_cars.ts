@@ -8,6 +8,15 @@ export async function seed(knex: Knex) {
       cor: "branca",
       hora_entrada: "08:01:00",
       data_entrada: "28/07/2020",
+      status: "S",
+    },
+    {
+      placa: "xybr-32556",
+      modelo: "Gol",
+      cor: "Preto",
+      hora_entrada: "08:01:00",
+      data_entrada: "29/07/2020",
+      status: "S",
     },
   ]);
 }

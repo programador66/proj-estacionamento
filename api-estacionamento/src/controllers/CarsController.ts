@@ -14,9 +14,22 @@ class CarsController {
       if (placa == "" || cor == "" || modelo == "") {
         throw new Error("Campos De entrada Nulos!");
       }
-      console.log(placa);
+
       const hora_entrada = moment().locale("pt-br").format("HH:MM:SS");
       const data_entrada = moment().locale("pt-br").format("L");
+
+      const validateEnterCarByDate = await carService.validateCarsByPlacaAndDate(
+        placa,
+        data_entrada
+      );
+
+      if (Object.keys(validateEnterCarByDate).length !== 0) {
+        return response.status(406).json({
+          msg: "Veículo ja foi estacionado data: " + data_entrada,
+          error: "ja existe no bd",
+        });
+      }
+
       const validaHoraEntrada = await dateHelper.validaHoraDeEntrada(
         hora_entrada
       );
@@ -31,6 +44,7 @@ class CarsController {
         modelo,
         hora_entrada,
         data_entrada,
+        status: "S",
       };
 
       const resDb = await carService.insert(cars);

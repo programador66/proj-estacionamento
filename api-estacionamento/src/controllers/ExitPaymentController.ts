@@ -72,11 +72,31 @@ class ExitPaymentController {
   }
 
   async index(request: Request, response: Response) {
-    const paymentService = new ExitPaymentService();
+    try {
+      const paymentService = new ExitPaymentService();
+      const { data_inicial, data_final } = request.body;
 
-    const res = await paymentService.getPayment();
+      if (data_inicial == "" || data_final == "") {
+        throw new Error("Campos De entrada Nulos!");
+      }
 
-    return response.status(200).json(res);
+      const res = await paymentService.getPayment(data_inicial, data_final);
+
+      const faturamento = res.reduce(
+        (total, e) => (total += e.total_a_pagar),
+        0
+      );
+
+      return response.status(200).json({
+        data: res,
+        faturamento: `R$ ${Number(faturamento)},00`,
+      });
+    } catch (err) {
+      return response.status(406).json({
+        msg: "Erro no  relatório do veículo",
+        error: err.message,
+      });
+    }
   }
 }
 

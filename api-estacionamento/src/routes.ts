@@ -11,6 +11,6 @@ routes.get("/cars", carsController.index);
 routes.post("/cars", carsController.create);
 
 routes.post("/payment", payment.create);
-routes.get("/revenues", payment.index);
+routes.post("/revenues", payment.index);
 
 export default routes;

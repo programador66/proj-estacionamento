@@ -20,11 +20,11 @@ class ExitPaymentService {
     return { success: true };
   }
 
-  async getPayment() {
+  async getPayment(data_inicial: String, data_final: String) {
     const res = await knex
       .from("exit_payment")
-      .innerJoin("cars", "exit_payment.cars_id", "cars.id");
-
+      .innerJoin("cars", "exit_payment.cars_id", "cars.id")
+      .whereBetween("exit_payment.data_saida", [data_inicial, data_final]);
     return res;
   }
 

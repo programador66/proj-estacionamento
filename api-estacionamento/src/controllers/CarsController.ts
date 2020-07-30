@@ -35,7 +35,9 @@ class CarsController {
       );
 
       if (!validaHoraEntrada) {
-        throw new Error("Hora de entrada não permitida!");
+        return response.status(406).json({
+          msg: "Hora de entradas somente as 08:00 até as 17:59",
+        });
       }
 
       const cars = {

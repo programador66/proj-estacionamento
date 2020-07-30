@@ -22,7 +22,7 @@
           </v-btn>
         </v-card>
         <v-card class="pa-2" outlined tile>
-          <v-btn color="#0e314a" dark class="btn"
+          <v-btn color="#0e314a" dark class="btn" @click="routerRevenues()"
             >Relatorio
             <v-icon>mdi-file-chart</v-icon>
           </v-btn>
@@ -164,6 +164,9 @@ export default {
     ...mapGetters(["getCars"]),
   },
   methods: {
+    routerRevenues() {
+      this.$router.push({ path: "/revenues" });
+    },
     ...mapMutations(["setCars"]),
     setCarsStore() {
       api

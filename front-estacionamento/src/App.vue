@@ -3,7 +3,7 @@
     <v-app-bar app color="#0e314a" dark>
       <div class="d-flex align-center">
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <strong>PMZ</strong>
+        <strong id="logo" @click="router()">PMZ</strong>
       </div>
 
       <v-spacer></v-spacer>
@@ -29,5 +29,15 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    router() {
+      this.$router.push("/");
+    },
+  },
 };
 </script>
+<style>
+#logo:hover {
+  cursor: pointer;
+}
+</style>

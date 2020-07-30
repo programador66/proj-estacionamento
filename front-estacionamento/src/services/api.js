@@ -22,6 +22,11 @@ class api {
     const response = await this.api.post("/payment", params);
     return response;
   }
+
+  async getRevenues(params) {
+    const response = await this.api.post("/revenues", params);
+    return response;
+  }
 }
 
 export default new api();
